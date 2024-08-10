@@ -1,0 +1,42 @@
+body {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+}
+
+.pipbutton {
+    background-color: #45b2da;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.timeFormat {
+    font-size: 16px;
+    font-family: "Merriweather", serif;
+    background-color:#45b2da;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+select {
+    font-size: large;
+    background-color: white;
+    color:#45b2da;
+    border:#45b2da solid 1px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-family: "Merriweather", serif;
+}   

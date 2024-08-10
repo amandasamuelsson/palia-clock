@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+
+<video controls muted autoplay></video>
+<button class="pipbutton merriweather-regular" onclick="document.querySelector('video').requestPictureInPicture()">Pop out clock</button>
+<div class="timeFormat">
+    <label for="timeFormat">Choose time format:</label>
+    <select id="timeFormat" onchange="updateFormat()">
+      <option value="12">12-Hour</option>
+      <option value="24">24-Hour</option>
+    </select>
+</div>
+
+<script>
+const video = document.querySelector('video');
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+
+// Set canvas size
+canvas.width = 420;
+canvas.height = 240;
+ctx.font = "60px merriweather";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+// Capture the canvas stream as the video source
+video.srcObject = canvas.captureStream();
+
+const offset = new Date(0).getTimezoneOffset() * 60_000;
+let is24HourFormat = false; // Default to 12-hour format
+
+function updateFormat() {
+  const formatSelect = document.getElementById('timeFormat');
+  is24HourFormat = formatSelect.value === "24";
+}
+
+function frame() {
+  ctx.fillStyle = "#45b2da";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  
+  // Create a fantasy time based on the real time * 24
+  
+  const paliaNow = new Date(Date.now() * 24 + offset);
+  paliaNow.setHours(paliaNow.getHours() - 1); // Adjust the hour by adding 1
+  paliaNow.setMinutes(paliaNow.getMinutes() - 1); // Adjust the hour by adding 1
+  let options = { hour: 'numeric', minute: 'numeric' };
+  
+  // Determine whether to use 12-hour or 24-hour format
+  if (is24HourFormat) {
+    options.hour12 = false;
+  } else {
+    options.hour12 = true;
+  }
+  
+  const formattedTime = paliaNow.toLocaleTimeString([], options);
+  ctx.fillText(formattedTime, canvas.width / 2, canvas.height / 2);
+  
+  requestAnimationFrame(frame);
+}
+frame();
+
+</script>
+</html>
